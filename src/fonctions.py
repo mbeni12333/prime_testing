@@ -2,6 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
+def my_gcd(a, b):
+	"""
+	int*int -> int
+	"""
+
+	while b != 0:
+		tempo = b
+
+		b = a % b
+
+		a = tempo
+
+	return a
+
 def my_inverse(a, N):
     """
     int*int->int
