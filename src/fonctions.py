@@ -35,7 +35,7 @@ class Drawer(object):
         plt.yscale(mode)
 
         for key, value in self.times.items():
-            plt.plot(value[0], value[1] label=key)
+            plt.plot(value[0], value[1], label=key)
 
         # if mode == "normal":
         #    plt.title("Temps en fonction de n")
@@ -63,36 +63,36 @@ class Drawer(object):
 
 
 def my_gcd(a, b):
-	"""
-	int*int -> int
-	"""
+    """
+    int*int -> int
+    """
 
-	while b != 0:
-		tempo = b
+    while b != 0:
+        tempo = b
 
-		b = a % b
+        b = a % b
 
-		a = tempo
+        a = tempo
 
-	return a
+    return a
 
 def my_expo_mod(g, n, N):
-	"""
-	int*int*int -> int
-	retourn (g^n) % N
-	"""
-	h = 1
+    """
+    int*int*int -> int
+    retourn (g^n) % N
+    """
+    h = 1
 
-	l = n.bit_length()
+    l = n.bit_length()
 
-	#Note: on met la range jusqu'a -1 pour que i prenne aussi la valeur 0.
-	for i in range(l - 1, -1, -1):
-		h = (h**2) % N
+    #Note: on met la range jusqu'a -1 pour que i prenne aussi la valeur 0.
+    for i in range(l - 1, -1, -1):
+        h = (h**2) % N
 
-		if (n >> i) & 1 == 1:
-			h = (h * g) % N
+        if (n >> i) & 1 == 1:
+            h = (h * g) % N
 
-	return h
+    return h
 
 def my_inverse(a, N):
     """
@@ -134,7 +134,7 @@ def experience_euclide(n_digit_max=20, step_size=3, n_exp=5):
         for exp in range(n_exp):
             a = np.random.randint(10**i, 100**i)
             b = np.random.randint(10**i, 100**i)
-            mean_exec += timeit(my_pgcd, a, b)/n_exp
-        Drawer.add("my_pgdcd", mean_exec)
+            mean_exec += timeit(my_gcd, a, b)/n_exp
+        Drawer.add("my_gcd", mean_exec)
 
     Drawer.draw()
