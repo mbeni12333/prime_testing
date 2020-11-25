@@ -26,7 +26,7 @@ class Drawer(object):
         # if len(self.sizes) == 0 or self.sizes[-1] != size:
         #    self.sizes.append(size)
 
-    def draw(self, mode="normal"):
+    def draw(self, mode="linear"):
         plt.figure("Temps")
         plt.xlabel("n")
         plt.ylabel("Temps (en secondes)")
@@ -66,34 +66,53 @@ def my_gcd(a, b):
 	"""
 	int*int -> int
 	"""
+    
 
 	while b != 0:
 		tempo = b
-
 		b = a % b
-
 		a = tempo
 
 	return a
+def my_gcd_etendu(a, b):
+    """
+    int*int-> int*int*int
+    return pgcd + u, v
+    """
+    a, b = max(a, b), min(a, b)
+    u = np.array([a, 1, 0])
+    v = np.array([b, 0, 1])
+
+    while(v[0] != 0):
+        q = u[0]//v[0]
+        u = v
+        v = u - q*v
+
+    return tuple(u)
 
 def my_inverse(a, N):
     """
     int*int->int
     retourner inverse de a modulo N
     """
+
     # tester tout les nombres
     for b in range(N):
         if(((a*b) % N) == 1):
             return b
     # si on trouve pas d'inverse
     print("a n'a pas d'inverse modulo N")
-    
+
 def my_inverse_bezout(a, N):
     """
     calcul pgcd etendu, ou remonté
     """
+    u0, u1, u2 = my_gcd_etendu(a, N)
+    if(u0 == 1):
+        return u1
 
-    return None
+    # si on trouve pas d'inverse
+    print("a n'a pas d'inverse modulo N")
 
 def timeit(method, *args):
     """
@@ -102,7 +121,7 @@ def timeit(method, *args):
     """
     start_time = time.start()
     method(*args)
-    return time.time() - time.start()
+    return time.time() - start_time
 
 def experience_euclide(n_digit_max=20, step_size=3, n_exp=5):
     """
