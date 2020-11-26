@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from .Drawer import Drawer
 
 def my_gcd(a, b):
 	"""
@@ -71,4 +70,20 @@ def my_inverse_bezout(a, N):
     # si on trouve pas d'inverse
     print("a n'a pas d'inverse modulo N")
 
+def first_test(N):
+    """
+    int*boolean
+    test naiif de primalité
+    complexité en O(sqrt(n))
+    """
+
+    for i in range(np.sqrt(N)):
+        if(N%i == 0):
+            return False
+    return True
+
+def gen_carmichael(N):
+    """
+    int->int
+    """
 

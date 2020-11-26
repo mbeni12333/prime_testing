@@ -3,14 +3,13 @@ import matplotlib.pyplot as plt
 
 class Drawer(object):
 
-    def __init__(self, title="Temps en fonction du nombre d'objets"):
-        self.nameToTimeA = {}
-        self.sizes = []
+    def __init__(self, save_path="../rapport/graphs", title="Temps en fonction du nombre d'objets"):
         self.title = title
         self.times = {}
+        self.save_path = save_path
 
     def add(self, name, time, size):
-        if name not in self.times.keys:
+        if name not in self.times.keys():
             self.times[name] = [[size], [time]]
         else:
             self.times[name][0].append(size)
@@ -58,4 +57,5 @@ class Drawer(object):
 
 
         plt.legend(loc='best')
+        plt.savefig( self.title + ".jpg")
         plt.show()

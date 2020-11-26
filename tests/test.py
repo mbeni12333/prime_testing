@@ -7,12 +7,6 @@ import unittest
 from src.fonctions import *
 
 
-"""
-Le pgcd de 987 et 345 est 3 :
-"""
-# print("Pgcd de 987 et 345:", my_gcd(987, 345))
-
-
 class TestPGCD(unittest.TestCase):
 
     def test_normal(self):
