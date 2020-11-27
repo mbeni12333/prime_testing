@@ -77,7 +77,7 @@ def first_test(N):
     complexité en O(sqrt(n))
     """
 
-    for i in range(np.sqrt(N)):
+    for i in range(2, int(np.sqrt(N))+1):
         if(N%i == 0):
             return False
     return True
@@ -86,4 +86,5 @@ def gen_carmichael(N):
     """
     int->int
     """
+
 
