@@ -3,14 +3,15 @@ import matplotlib.pyplot as plt
 import time
 
 def my_gcd(a, b):
-	"""
-	int*int -> int
-	"""
-	while b != 0:
-		tempo = b
-		b = a % b
-		a = tempo
-	return a
+    """
+    int*int -> int
+    """
+    a, b = max(a, b), min(a, b)
+    while b != 0:
+        tempo = b
+        b = a % b
+        a = tempo
+    return a
 
 def my_expo_mod(g, n, N):
     """
@@ -82,6 +83,37 @@ def first_test(N):
             return False
     return True
 
+#critére korselt
+def isCarmichael_facteurs(n, facteurs):
+    """
+    int*list->boolean
+    tester si n est un nombre de carmichael, etant donné ses facteurs
+    """
+#    if n % 2 == 0:
+#        return False
+
+#    for i in range(2, int(np.sqrt(n))+1):
+#        if first_test(i) and n%i == 0:
+            # i est premier divise n
+#            if n%(i**2) == 0:
+#                return False
+#            if (n-1)%(i-1) != 0:
+#                return False
+    for facteur in facteurs:
+        # pas facteur premier carré
+        if(n%(facteur**2) == 0):
+            return False
+        if((n-1)%(facteur-1) != 0):
+            return False
+    # pass le test
+    return True
+
+def isCarmichael(n):
+    for i in range(2, n):
+        if (my_gcd(i, n) == 1) and (my_expo_mod(i, n-1, n) != 1):
+            return False
+    return True
+    
 def gen_carmichael(N):
     """
     int->int

@@ -24,5 +24,19 @@ class TestInverse(unittest.TestCase):
         inv = my_inverse_bezout(14, 11)
         self.assertEqual(inv*14%11, 1)      
 
+class TestExponent(unittest.TestCase):
+    def test_normal(self):
+        self.assertEqual(my_expo_mod(5, 23, 77), pow(5, 23, mod=77))
+
+class TestCarmicael(unittest.TestCase):
+    def test_isCarmicael_facteurs(self):
+        self.assertTrue(isCarmichael_facteurs(561, [3, 11, 17]))
+        self.assertFalse(isCarmichael_facteurs(231, [3, 7, 11]))
+    
+    def test_isCarmicael(self):
+        self.assertTrue(isCarmichael(561))
+        self.assertFalse(isCarmichael(231))
+
+
 if __name__ == '__main__':
     unittest.main()
