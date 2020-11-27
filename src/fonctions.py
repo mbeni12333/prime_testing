@@ -109,11 +109,16 @@ def isCarmichael_facteurs(n, facteurs):
     return True
 
 def isCarmichael(n):
+    # n'est pas composé
+    if(first_test(n)):
+        return False
+    
     for i in range(2, n):
+        # (i premier avec n => i**(n-1) = 1[n])
         if (my_gcd(i, n) == 1) and (my_expo_mod(i, n-1, n) != 1):
             return False
     return True
-    
+
 def gen_carmichael(N):
     """
     int->int

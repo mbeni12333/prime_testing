@@ -32,10 +32,12 @@ class TestCarmicael(unittest.TestCase):
     def test_isCarmicael_facteurs(self):
         self.assertTrue(isCarmichael_facteurs(561, [3, 11, 17]))
         self.assertFalse(isCarmichael_facteurs(231, [3, 7, 11]))
-    
+        self.assertTrue(216821881, [331, 661, 991])
+
     def test_isCarmicael(self):
         self.assertTrue(isCarmichael(561))
         self.assertFalse(isCarmichael(231))
+        self.assertTrue(216821881)
 
 
 if __name__ == '__main__':
