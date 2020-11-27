@@ -15,7 +15,7 @@ def my_gcd(a, b):
 def my_expo_mod(g, n, N):
     """
     int*int*int -> int
-    retourn (g^n) % N
+    return (g^n) % N
     """
     h = 1
 
@@ -86,5 +86,6 @@ def gen_carmichael(N):
     """
     int->int
     """
+    pass
 
 
