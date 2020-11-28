@@ -26,9 +26,6 @@ print("Avec pow de python:", pow(7892, 678, mod=79))
 print("Avec my_expo_mod:", my_expo_mod(7892, 678, 79))
 
 
-
-
-
 ###
 print("Probabilité du test de Fermat estimé -")
 print("Avec de nombres Carmichael :")

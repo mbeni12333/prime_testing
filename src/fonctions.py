@@ -109,6 +109,8 @@ def isCarmichael_facteurs(n, facteurs):
     return True
 
 def isCarmichael(n):
+    """
+    """
     # n'est pas composé
     if(first_test(n)):
         return False
@@ -124,5 +126,20 @@ def gen_carmichael(N):
     int->int
     """
     pass
+
+def test_fermat(n, a):
+	"""
+	n un entier impair, a un entier entre 2 et n - 1.
+
+	Retourne vrai si premier possible
+	faux si composé
+
+	"""
+	b = my_expo_mod(a, n-1, n)
+
+	if b != 1:
+		return False
+
+	return True
 
 
