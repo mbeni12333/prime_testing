@@ -5,7 +5,6 @@ sys.path.insert(0,parentdir)
 
 import unittest
 from src.fonctions import *
-from src.exercice3 import estimate_proba_test_fermat, test_fermat
 
 
 class TestPGCD(unittest.TestCase):
@@ -58,6 +57,22 @@ class TestFermat(unittest.TestCase):
         goodResult = first_test(prime)
         ourResult = test_fermat(prime, a)
         self.assertEqual(goodResult, not ourResult)
+
+
+class TestExponent(unittest.TestCase):
+    def test_normal(self):
+        self.assertEqual(my_expo_mod(5, 23, 77), pow(5, 23, mod=77))
+
+class TestCarmicael(unittest.TestCase):
+    def test_isCarmicael_facteurs(self):
+        self.assertTrue(isCarmichael_facteurs(561, [3, 11, 17]))
+        self.assertFalse(isCarmichael_facteurs(231, [3, 7, 11]))
+        self.assertTrue(216821881, [331, 661, 991])
+
+    def test_isCarmicael(self):
+        self.assertTrue(isCarmichael(561))
+        self.assertFalse(isCarmichael(231))
+        self.assertTrue(216821881)
 
 
 if __name__ == '__main__':
