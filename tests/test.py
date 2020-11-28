@@ -5,6 +5,7 @@ sys.path.insert(0,parentdir)
 
 import unittest
 from src.fonctions import *
+from src.exercice3 import estimate_proba_test_fermat, test_fermat
 
 
 class TestPGCD(unittest.TestCase):
@@ -22,7 +23,42 @@ class TestInverse(unittest.TestCase):
         self.assertEqual(inv*14%11, 1)
     def test_bezout(self):
         inv = my_inverse_bezout(14, 11)
-        self.assertEqual(inv*14%11, 1)      
+        self.assertEqual(inv*14%11, 1)
+
+class TestExpMod(unittest.TestCase):
+
+    def test1(self):
+        pythonResult = pow(2, 10, mod=67)
+        ourResult = my_expo_mod(2, 10, 67)
+        self.assertEqual(pythonResult, ourResult)
+
+    def test2(self):
+        pythonResult = pow(7892, 678, mod=79)
+        ourResult = my_expo_mod(7892, 678, 79)
+        self.assertEqual(pythonResult, ourResult)
+
+class TestFermat(unittest.TestCase):
+
+
+    def testGood(self):
+
+        prime = 377791
+        a = 253432
+
+        goodResult = first_test(prime)
+        ourResult = test_fermat(prime, a)
+        self.assertEqual(goodResult, ourResult)
+
+
+    def testFail(self):
+
+        prime = 561
+        a = 5
+
+        goodResult = first_test(prime)
+        ourResult = test_fermat(prime, a)
+        self.assertEqual(goodResult, not ourResult)
+
 
 if __name__ == '__main__':
     unittest.main()

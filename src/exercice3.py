@@ -1,8 +1,11 @@
 
-from fonctions import my_expo_mod, first_test, gen_carmichael
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir) 
+
+from src.fonctions import my_expo_mod, first_test, gen_carmichael
 import random
-
-
 
 
 """
@@ -14,7 +17,7 @@ faux si composé
 """
 def test_fermat(n, a):
 
-	b = pow(a, n-1, n)
+	b = my_expo_mod(a, n-1, n)
 
 	if b != 1:
 		return False
@@ -75,10 +78,12 @@ def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
 		isPrime  = first_test(prime)
 
 		if mayPrime != isPrime:
-			#print(f"Error on {prime} with a = {a}")
+			print(f"Error on {prime} with a = {a}")
 			error_counter += 1
 
 
 	error_pourcent = error_counter/n
 
 	print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
+
+#estimate_proba_test_fermat(10000, mode=2)
