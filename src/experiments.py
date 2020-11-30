@@ -132,9 +132,10 @@ def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
 
 if __name__ == "__main__":
     # experience_euclide(4086, 32, 10)
-    c = experience_comptage_premier_naiif()
+    # c = experience_comptage_premier_naiif()
     # c = experience_carmichael(10000)
-    print("cpt = ", c)
+    # print("cpt = ", c)
     # experience_carmichael()
     #maxn = experience_gen_carmichael_3(1000)
     #print(maxn)
+    print(test_miller_rabin(7))
