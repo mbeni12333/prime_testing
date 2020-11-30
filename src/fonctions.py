@@ -121,11 +121,23 @@ def isCarmichael(n):
             return False
     return True
 
-def gen_carmichael(N):
+def gen_carmichael(N=1e5, n_facteur_max=5):
     """
     int->int
     """
-    pass
+    premiers = [i for i in range(3, int(N), 2) if first_test(i)]
+    
+    nb_facteur = 3
+    
+    indexes = list(range(len(premiers)))
+    while True:  
+        np.random.shuffle(indexes)
+        acc = [premiers[indexes[i]]for i in range(nb_facteur)]
+        n = np.prod(acc, dtype=np.int64)
+        #print(n)
+        if isCarmichael_facteurs(n, acc):
+
+            return n
 
 def test_fermat(n, a):
 	"""
