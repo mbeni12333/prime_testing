@@ -130,6 +130,16 @@ def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
 
     print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
 
+def experience_miller_rabin(N=1e5):
+
+    # premiers = [i for i in range(5, int(N), 2) if first_test(i)]
+
+    cpt = 0
+    for p in range(5, int(1e5)):
+        if test_miller_rabin(p):
+            cpt += 1
+    return cpt/len(premiers)
+
 if __name__ == "__main__":
     # experience_euclide(4086, 32, 10)
     # c = experience_comptage_premier_naiif()
@@ -138,4 +148,5 @@ if __name__ == "__main__":
     # experience_carmichael()
     #maxn = experience_gen_carmichael_3(1000)
     #print(maxn)
-    print(test_miller_rabin(7))
+    # print(test_miller_rabin(7))
+    print(experience_miller_rabin())

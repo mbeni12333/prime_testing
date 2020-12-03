@@ -154,26 +154,35 @@ def test_fermat(n, a):
 
 	return True
 
+
 def test_miller_rabin(n, T=10):
     """
-    int: n = 1 + 2**h *m
+    int*int->boolean
+    n = 1 + 2**h * m
     """
-    h=0
-    temp = n-1
-    while temp%2 == 0:
-        temp = temp//2
-        h += 1
-    m = (n-1)//2**h
 
-    for i in range(1, T):
+    p_h = 1
+    temp = n-1
+    while(temp%2 == 0):
+        temp = temp // 2
+        p_h *= 2
+    m = (n-1)//p_h
+
+    for i in range(T):
         a = np.random.randint(2, n-2)
         b = my_expo_mod(a, m, n)
-        if b==1 and b==(n-1):
+
+        if b==1 or b==(n-1):
             continue
-        for j in range(h-1):
-            b = my_expo_mod(b, 2, n)
-            if b == (n-1): 
+
+        for j in range(1, p_h):
+            if b!=(n-1) and my_expo_mod(b, 2, n)==1:
+                return False
+            elif  b==(n-1):
                 break
+            b = my_expo_mod(b, 2, n)
+        
         if b != (n-1):
             return False
+    
     return True
