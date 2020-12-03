@@ -20,7 +20,14 @@ def my_expo_mod(g, n, N):
     """
     h = 1
 
+    if n < 0:
+        # puissance negative
+        gcd, _, v = my_gcd_etendu(N, g)
+        g = v
+        n = -n
+
     l = n.bit_length()
+
 
     #Note: on met la range jusqu'a -1 pour que i prenne aussi la valeur 0.
     for i in range(l - 1, -1, -1):
@@ -46,7 +53,7 @@ def my_gcd_etendu(a, b):
         v = u - q*v
         u = temp
 
-    return tuple(u)
+    return tuple(map(int, u))   
 
 def my_inverse(a, N):
     """
@@ -121,22 +128,38 @@ def isCarmichael(n):
             return False
     return True
 
-def gen_carmichael(N=1e5, n_facteur_max=5):
+
+
+def gen_carmichael32(N=1e5, n_facteur_max=5):
     """
     int->int
     """
     premiers = [i for i in range(3, int(N), 2) if first_test(i)]
-    
     nb_facteur = 3
-    
+
+    print("precomputed primes")
+
+    while True:
+        acc = [premiers[np.random.randint(0, len(premiers)-1)] for i in range(nb_facteur)]
+        n = np.prod(acc, dtype=np.int64)
+
+        if isCarmichael_facteurs(n, acc):
+            return n
+
+def gen_carmichael3(N=1e5, n_facteur_max=5):
+    """
+    int->int
+    """
+    premiers = [i for i in range(3, int(N), 2) if first_test(i)]
+    nb_facteur = 3
     indexes = list(range(len(premiers)))
+
     while True:  
         np.random.shuffle(indexes)
-        acc = [premiers[indexes[i]]for i in range(nb_facteur)]
+        acc = [premiers[indexes[i]] for i in range(nb_facteur)]
         n = np.prod(acc, dtype=np.int64)
         #print(n)
         if isCarmichael_facteurs(n, acc):
-
             return n
 
 def test_fermat(n, a):
@@ -168,8 +191,11 @@ def test_miller_rabin(n, T=10):
         p_h *= 2
     m = (n-1)//p_h
 
+    inf = n-3
     for i in range(T):
-        a = np.random.randint(2, n-2)
+        # a = np.random.randint(2, n-1)
+        # a = inf*np.random.rand()
+        a = 2 + random.getrandbits(n.bit_length())%(n-3)
         b = my_expo_mod(a, m, n)
 
         if b==1 or b==(n-1):
@@ -186,3 +212,54 @@ def test_miller_rabin(n, T=10):
             return False
     
     return True
+
+import random
+def gen_rsa(t):
+    """
+    int: longeur en bits
+    return: (e, n), (d, n)
+    """
+    inf = 1<<(t-2)
+
+    while True:
+        p = inf + random.getrandbits(t-1)
+        if test_miller_rabin(p):
+            break
+    while True:
+        q = inf + random.getrandbits(t-1)
+        if test_miller_rabin(q) and q != p:
+            break
+
+    return p, q, p*q
+
+
+def RSA(t):
+    """
+    return public_key, private_key
+    """
+    p, q, n = gen_rsa(t)
+
+    # phi (nombre de nombres premier avec n, < n)
+    phi = (p-1)*(q-1)
+
+    while True:
+        e = 2 + random.getrandbits(phi.bit_length())%(phi-3)
+        gcd, _, d = my_gcd_etendu(phi, e)
+        if(gcd == 1):
+            break
+    
+    return (e, n), (d, n)
+
+def encode(m, public_key):
+    """
+    (e, n)
+    """
+
+    return [my_expo_mod(ord(c), *public_key) for c in m]
+
+def decode(m, private_key):
+    """
+    (d, n)
+    """
+    return ''.join([chr(my_expo_mod(c, *private_key)) for c in m])
+    
