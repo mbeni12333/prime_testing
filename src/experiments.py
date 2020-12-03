@@ -132,13 +132,38 @@ def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
 
 def experience_miller_rabin(N=1e5):
 
+    annotations = np.array([1 if first_test(i) else 0 for i in range(5, int(N), 2)])
+    predictions = np.array([1 if test_miller_rabin(i) else 0 for i in range(5, int(N), 2)])
+
+    confusion = np.zeros((2,2))
+
+    for i in range(len(annotations)):
+        confusion[1-predictions[i], 1-annotations[i]] += 1
+
+
+
+    ax= plt.subplot()
+    sns.heatmap(confusion, annot=True, ax = ax,fmt=".0f", cmap="viridis");
+    ax.set_xlabel('True labels');ax.set_ylabel('Predicted labels'); 
+    ax.set_title('Confusion Matrix'); 
+    ax.xaxis.set_ticklabels(['prime', 'notprime']); ax.yaxis.set_ticklabels(['prime', 'notprime']);
+    plt.show()
+    # plt.title("matrice de confusion")
+    # plt.xticks([0, 1], ["prime", "notprime"])
+    # plt.yticks([0, 1], ["prime", "notprime"])
+    # plt.imshow(confusion)
+    # plt.colorbar()
+    # plt.show()
     # premiers = [i for i in range(5, int(N), 2) if first_test(i)]
 
-    cpt = 0
-    for p in range(5, int(1e5)):
-        if test_miller_rabin(p):
-            cpt += 1
-    return cpt/len(premiers)
+    # cpt = 0
+    # for p in range(5, int(1e5)):
+    #     if test_miller_rabin(p):
+    #         cpt += 1
+    # return abs(cpt - len(premiers))
+
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 if __name__ == "__main__":
     # experience_euclide(4086, 32, 10)
@@ -149,4 +174,4 @@ if __name__ == "__main__":
     #maxn = experience_gen_carmichael_3(1000)
     #print(maxn)
     # print(test_miller_rabin(7))
-    print(experience_miller_rabin())
+    experience_miller_rabin()
