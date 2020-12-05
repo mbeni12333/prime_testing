@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 class Drawer(object):
 
-    def __init__(self, save_path="../rapport/graphs", title="Temps en fonction du nombre d'objets"):
+    def __init__(self, save_path="../rapport/graphs", title="Temps en fonction de N"):
         self.title = title
         self.times = {}
         self.save_path = save_path
@@ -26,14 +26,22 @@ class Drawer(object):
 
     def draw(self, mode="linear"):
         plt.figure("Temps")
-        plt.xlabel("n")
+        #plt.xlabel("N")
+        plt.xlabel("nombre de bits dans N")
         plt.ylabel("Temps (en secondes)")
 
-        plt.title(self.title + "-" + mode)
+
+        if mode =="linear":
+            plt.title(self.title)
+        else:
+            plt.title(self.title + "-" + mode)
+
         plt.yscale(mode)
 
         for key, value in self.times.items():
             plt.plot(value[0], value[1], label=key)
+
+        #plt.plot(value[0], np.sqrt(value[0])/100000, label="sqrt(N)")
 
         # if mode == "normal":
         #    plt.title("Temps en fonction de n")

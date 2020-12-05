@@ -53,7 +53,7 @@ def my_gcd_etendu(a, b):
         v = u - q*v
         u = temp
 
-    return tuple(map(int, u))   
+    return tuple(map(int, u))
 
 def my_inverse(a, N):
     """
@@ -65,7 +65,7 @@ def my_inverse(a, N):
         if(((a*b) % N) == 1):
             return b
     # si on trouve pas d'inverse
-    print("a n'a pas d'inverse modulo N")
+    print(f"{a} n'a pas d'inverse modulo {N}")
 
 def my_inverse_bezout(a, N):
     """
@@ -76,11 +76,11 @@ def my_inverse_bezout(a, N):
         return u1
 
     # si on trouve pas d'inverse
-    print("a n'a pas d'inverse modulo N")
+    print(f"{a} n'a pas d'inverse modulo {N}")
 
 def first_test(N):
     """
-    int*boolean
+    int -> boolean
     test naiif de primalité
     complexité en O(sqrt(n))
     """
@@ -136,8 +136,6 @@ def gen_carmichael32(N=1e5, n_facteur_max=5):
     """
     premiers = [i for i in range(3, int(N), 2) if first_test(i)]
     nb_facteur = 3
-
-    print("precomputed primes")
 
     while True:
         acc = [premiers[np.random.randint(0, len(premiers)-1)] for i in range(nb_facteur)]
