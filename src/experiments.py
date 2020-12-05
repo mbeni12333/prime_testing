@@ -47,13 +47,9 @@ def experience_gcd_inverse(n, step=1, n_exp=10, inverse=True):
         gcd_time = 0
         gcd_etendu_time = 0
 
-        meanN = 0
-
         for exp in range(n_exp):
             a = random.getrandbits(i+1)
             N = random.getrandbits(i)
-
-            meanN += N
 
             if inverse:
                 mean_exec += timeit(my_inverse, a, N)
@@ -71,7 +67,27 @@ def experience_gcd_inverse(n, step=1, n_exp=10, inverse=True):
     drawer.draw()
 
 
+def experience_exp_mod(n, step=1, n_exp=10):
 
+    drawer = Drawer("Temps en fonction de N")
+    
+    mean_exec = 0
+    for i in range(3, n, step):
+
+        
+        mean_exec = 0
+
+        for exp in range(n_exp):
+            a = random.getrandbits(i+1)
+            b = random.getrandbits(i+1)
+            N = random.getrandbits(i) + 1
+
+            mean_exec += timeit(my_expo_mod, a, b, N)
+
+
+        drawer.add(name="my_expo_mod", time=mean_exec, size=i)
+
+    drawer.draw()
 
 
 def experience_comptage_premier_naiif(N=1e5):
