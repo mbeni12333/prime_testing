@@ -37,7 +37,7 @@ Question 1.c
 """
 def experience_gcd_inverse(n, step=1, n_exp=10, inverse=True):
 
-    drawer = Drawer("Temps en fonction de N")
+    drawer = Drawer(title="Temps en fonction de N")
     
     mean_exec = 0
     for i in range(3, n, step):
@@ -46,6 +46,7 @@ def experience_gcd_inverse(n, step=1, n_exp=10, inverse=True):
         mean_exec = 0
         gcd_time = 0
         gcd_etendu_time = 0
+        inverse_bezout_time = 0
 
         for exp in range(n_exp):
             a = random.getrandbits(i+1)
@@ -54,22 +55,28 @@ def experience_gcd_inverse(n, step=1, n_exp=10, inverse=True):
             if inverse:
                 mean_exec += timeit(my_inverse, a, N)
 
+
             gcd_time += timeit(my_gcd, a, N)
 
             gcd_etendu_time += timeit(my_gcd_etendu, a, N)
+
+            inverse_bezout_time += timeit(my_inverse_bezout, a, N)
+
 
         drawer.add(name="my_gcd", time=gcd_time/n_exp, size=i)
         drawer.add(name="my_gcd_etendu", time=gcd_etendu_time/n_exp, size=i)
 
         if inverse:
-            drawer.add(name="my_inverse", time=mean_exec, size=i)
+            drawer.add(name="my_inverse", time=mean_exec/n_exp, size=i)
+
+        drawer.add(name="my_inverse_bezout", time=inverse_bezout_time/n_exp, size=i)
 
     drawer.draw()
 
 
 def experience_exp_mod(n, step=1, n_exp=10):
 
-    drawer = Drawer("Temps en fonction de N")
+    drawer = Drawer(title="Temps en fonction de N")
     
     mean_exec = 0
     for i in range(3, n, step):
@@ -86,6 +93,28 @@ def experience_exp_mod(n, step=1, n_exp=10):
 
 
         drawer.add(name="my_expo_mod", time=mean_exec, size=i)
+
+    drawer.draw()
+
+
+def experience_first_test(n, step=1, n_exp=10):
+
+    drawer = Drawer(title="Temps en fonction de N")
+
+    for i in range(3, n, step):
+
+        mean_exec = 0
+
+        #print("value: ", value)
+
+        for exp in range(n_exp):
+
+            n = random.getrandbits(i)
+
+            mean_exec += timeit(first_test, n)
+
+
+        drawer.add(name="first_test", time=mean_exec/n_exp, size=i)
 
     drawer.draw()
 
