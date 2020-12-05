@@ -1,8 +1,8 @@
-from Drawer import Drawer
+from src.Drawer import Drawer
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from fonctions import *
+from src.fonctions import *
 import random
 
 def timeit(method, *args):
@@ -31,6 +31,48 @@ def experience_euclide(n_digit_max=128, step_size=2, n_exp=10):
             mean_exec += timeit(my_gcd_etendu, a, b)/n_exp
         drawer.add(name="my_gcd", time=mean_exec, size=i)
     drawer.draw()
+
+"""
+Question 1.c
+"""
+def experience_gcd_inverse(n, step=1, n_exp=10, inverse=True):
+
+    drawer = Drawer("Temps en fonction de N")
+    
+    mean_exec = 0
+    for i in range(3, n, step):
+
+        
+        mean_exec = 0
+        gcd_time = 0
+        gcd_etendu_time = 0
+
+        meanN = 0
+
+        for exp in range(n_exp):
+            a = random.getrandbits(i+1)
+            N = random.getrandbits(i)
+
+            meanN += N
+
+            if inverse:
+                mean_exec += timeit(my_inverse, a, N)
+
+            gcd_time += timeit(my_gcd, a, N)
+
+            gcd_etendu_time += timeit(my_gcd_etendu, a, N)
+
+        drawer.add(name="my_gcd", time=gcd_time/n_exp, size=i)
+        drawer.add(name="my_gcd_etendu", time=gcd_etendu_time/n_exp, size=i)
+
+        if inverse:
+            drawer.add(name="my_inverse", time=mean_exec, size=i)
+
+    drawer.draw()
+
+
+
+
 
 def experience_comptage_premier_naiif(N=1e5):
     """
@@ -162,8 +204,8 @@ def experience_miller_rabin(N=1e5):
     #         cpt += 1
     # return abs(cpt - len(premiers))
 
-import matplotlib.pyplot as plt
-import seaborn as sns
+#import matplotlib.pyplot as plt
+#import seaborn as sns
 
 if __name__ == "__main__":
     # experience_euclide(4086, 32, 10)

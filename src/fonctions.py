@@ -53,7 +53,7 @@ def my_gcd_etendu(a, b):
         v = u - q*v
         u = temp
 
-    return tuple(map(int, u))   
+    return tuple(map(int, u))
 
 def my_inverse(a, N):
     """
@@ -65,7 +65,7 @@ def my_inverse(a, N):
         if(((a*b) % N) == 1):
             return b
     # si on trouve pas d'inverse
-    print("a n'a pas d'inverse modulo N")
+    print(f"{a} n'a pas d'inverse modulo {N}")
 
 def my_inverse_bezout(a, N):
     """

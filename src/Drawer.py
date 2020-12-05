@@ -26,7 +26,7 @@ class Drawer(object):
 
     def draw(self, mode="linear"):
         plt.figure("Temps")
-        plt.xlabel("n")
+        plt.xlabel("nombre de bits dans N")
         plt.ylabel("Temps (en secondes)")
 
         plt.title(self.title + "-" + mode)
