@@ -129,8 +129,20 @@ def isCarmichael(n):
     return True
 
 
+def gen_carmichael(N=1e5):
+    """
+    int->int
+    nombre de nombre premier inferieur à N
+    """
+    acc = []
+    for i in range(int(N)):
+        if isCarmichael(i):
+            acc.append(i)
 
-def gen_carmichael32(N=1e5, n_facteur_max=5):
+    return acc
+
+
+def gen_carmichael3(N=1e5, n_facteur_max=5):
     """
     int->int
     """
@@ -144,7 +156,8 @@ def gen_carmichael32(N=1e5, n_facteur_max=5):
         if isCarmichael_facteurs(n, acc):
             return n
 
-def gen_carmichael3(N=1e5, n_facteur_max=5):
+
+def gen_carmichael32(N=1e5, n_facteur_max=5):
     """
     int->int
     """
@@ -191,8 +204,6 @@ def test_miller_rabin(n, T=10):
 
     inf = n-3
     for i in range(T):
-        # a = np.random.randint(2, n-1)
-        # a = inf*np.random.rand()
         a = 2 + random.getrandbits(n.bit_length())%(n-3)
         b = my_expo_mod(a, m, n)
 
