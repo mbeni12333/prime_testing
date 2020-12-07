@@ -73,7 +73,7 @@ def my_inverse_bezout(a, N):
     """
     u0, u1, u2 = my_gcd_etendu(a, N)
     if(u0 == 1):
-        return u1
+        return u2 if a<N else u1
 
     # si on trouve pas d'inverse
     print(f"{a} n'a pas d'inverse modulo {N}")
@@ -96,16 +96,6 @@ def isCarmichael_facteurs(n, facteurs):
     int*list->boolean
     tester si n est un nombre de carmichael, etant donné ses facteurs
     """
-#    if n % 2 == 0:
-#        return False
-
-#    for i in range(2, int(np.sqrt(n))+1):
-#        if first_test(i) and n%i == 0:
-            # i est premier divise n
-#            if n%(i**2) == 0:
-#                return False
-#            if (n-1)%(i-1) != 0:
-#                return False
     for facteur in facteurs:
         # pas facteur premier carré
         if(n%(facteur**2) == 0):
@@ -174,19 +164,20 @@ def gen_carmichael32(N=1e5, n_facteur_max=5):
             return n
 
 def test_fermat(n, a):
-	"""
-	n un entier impair, a un entier entre 2 et n - 1.
+    """
+    n un entier impair, a un entier entre 2 et n - 1.
 
-	Retourne vrai si premier possible
-	faux si composé
+    Retourne vrai si premier possible
+    faux si composé
 
-	"""
-	b = my_expo_mod(a, n-1, n)
+    """
+    a = random.randrange(2, n)
+    b = my_expo_mod(a, n-1, n)
 
-	if b != 1:
-		return False
+    if b != 1:
+        return False
 
-	return True
+    return True
 
 
 def test_miller_rabin(n, T=10):
@@ -203,8 +194,9 @@ def test_miller_rabin(n, T=10):
     m = (n-1)//p_h
 
     inf = n-3
+
     for i in range(T):
-        a = 2 + random.getrandbits(n.bit_length())%(n-3)
+        a = 2 + random.getrandbits(n.bit_length())%(n-2)
         b = my_expo_mod(a, m, n)
 
         if b==1 or b==(n-1):

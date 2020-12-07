@@ -1,9 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+
+import os
+fp = os.path.abspath("rapport/graphs")
 
 class Drawer(object):
 
-    def __init__(self, save_path="../rapport/graphs", title="Temps en fonction de N"):
+    def __init__(self, save_path=fp, title="Temps en fonction de N"):
         self.title = title
         self.times = {}
         self.save_path = save_path
@@ -65,5 +69,21 @@ class Drawer(object):
 
 
         plt.legend(loc='best')
-        plt.savefig( self.title + ".jpg")
+        plt.savefig(os.path.join(fp, self.title+".png").replace("\\","/"))
         plt.show()
+
+def drawConfusionMatrix(confusion, title="confusion_matrix"):
+    """
+    Array -> None
+    """
+
+    ax= plt.subplot()
+    sns.heatmap(confusion, annot=True, ax = ax,fmt=".4f", cmap="viridis");
+    ax.set_xlabel('True labels');
+    ax.set_ylabel('Predicted labels'); 
+    ax.set_title('Confusion Matrix'); 
+    ax.xaxis.set_ticklabels(['prime', 'notprime']);
+    ax.yaxis.set_ticklabels(['prime', 'notprime']);
+    plt.savefig(os.path.join(fp, title+".png").replace("\\","/"))
+    plt.show()
+

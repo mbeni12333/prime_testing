@@ -1,4 +1,4 @@
-from src.Drawer import Drawer
+from src.Drawer import Drawer, drawConfusionMatrix
 import numpy as np
 import matplotlib.pyplot as plt
 import time
@@ -153,14 +153,14 @@ def experience_carmichael_t(tmax=5*60):
 
 
 def experience_carmichael3_t(tmax=5*60):
+    """
+    int -> int
+    """
     start_time = time.time()
-
     best = 0
-
     N = int(1e4)
 
     while time.time() - start_time < tmax:
-
 
         print("N:", N)
 
@@ -208,7 +208,8 @@ def generateRandomCompositeImp(maxSize=100000):
 
     return notPrime
 
-def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
+
+def estimate_proba_test_primality(n, testFunction, maxSize=10000, mode=0):
     """
     Entrées:
         n : Nombre de test
@@ -220,11 +221,15 @@ def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
 
         Ne retourne rien mais print la probabilité de succes estimé.
     """
-    error_counter = 0
+    # error_counter = 0
+    titles = ["carmichael", "aleatoire composé", "aleatoire"]
+    print("Estimating proba fermat mode = ", titles[mode])
 
     if mode == 0:
         carmichael_list = gen_carmichael(maxSize)
-        
+
+    confusion = np.zeros((2,2))
+
     for i in range(n):
 
         if mode == 0:
@@ -237,20 +242,18 @@ def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
             #n impair et supérieur a 2
             prime = random.randrange(3, maxSize, 2)
 
-
-        a = random.randrange(2, prime)
-        mayPrime = test_fermat(prime, a)
-
+        mayPrime = testFunction(prime)
         isPrime  = first_test(prime)
 
-        if mayPrime != isPrime:
+        # if mayPrime != isPrime:
             #print(f"Error on {prime} with a = {a}")
-            error_counter += 1
+        #    error_counter += 1
+        confusion[1-mayPrime, 1-isPrime] += 1
 
-
-    error_pourcent = error_counter/n
-
-    print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
+    # error_pourcent = error_counter/n
+    # print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
+    confusion = confusion/confusion.sum()
+    drawConfusionMatrix(confusion, "confusion_"+testFunction.__name__+"_"+titles[mode])
 
 
 def estimate_proba_test_rabin(n, maxSize=100000):
@@ -273,11 +276,8 @@ def estimate_proba_test_rabin(n, maxSize=100000):
     plt.ylabel("probabilité d'erreur (entre 0 et 1)")
     plt.title("probabilité d'erreur en fonction de T du test de Miller Rabin")
 
-    #if mode == 0:
+    # if mode == 0:
     carmichael_list = gen_carmichael(maxSize)
-
-
-    
 
     for mode in range(3):
         
@@ -309,55 +309,29 @@ def estimate_proba_test_rabin(n, maxSize=100000):
                     #print(f"Error on {prime} with a = {a}")
                     error_counter += 1
 
-
             error_pourcent = error_counter/n
 
             x.append(T)
             y.append(error_pourcent)
 
-
         plt.plot(x, y, label=modeLabel[mode])
-
 
     plt.legend(loc='best')
     plt.show()
 
     #print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
 
-import seaborn as sns
-import matplotlib.pyplot as plt
+# def experience_miller_rabin(N=1e5):
 
-def experience_miller_rabin(N=1e5):
+#     annotations = np.array([1 if first_test(i) else 0 for i in range(5, int(N), 2)])
+#     predictions = np.array([1 if test_miller_rabin(i) else 0 for i in range(5, int(N), 2)])
 
-    annotations = np.array([1 if first_test(i) else 0 for i in range(5, int(N), 2)])
-    predictions = np.array([1 if test_miller_rabin(i) else 0 for i in range(5, int(N), 2)])
+#     confusion = np.zeros((2,2))
 
-    confusion = np.zeros((2,2))
+#     for i in range(len(annotations)):
+#         confusion[1-predictions[i], 1-annotations[i]] += 1
 
-    for i in range(len(annotations)):
-        confusion[1-predictions[i], 1-annotations[i]] += 1
-
-
-
-    ax= plt.subplot()
-    sns.heatmap(confusion, annot=True, ax = ax,fmt=".0f", cmap="viridis");
-    ax.set_xlabel('True labels');ax.set_ylabel('Predicted labels'); 
-    ax.set_title('Confusion Matrix'); 
-    ax.xaxis.set_ticklabels(['prime', 'notprime']); ax.yaxis.set_ticklabels(['prime', 'notprime']);
-    plt.show()
-    # plt.title("matrice de confusion")
-    # plt.xticks([0, 1], ["prime", "notprime"])
-    # plt.yticks([0, 1], ["prime", "notprime"])
-    # plt.imshow(confusion)
-    # plt.colorbar()
-    # plt.show()
-    # premiers = [i for i in range(5, int(N), 2) if first_test(i)]
-
-    # cpt = 0
-    # for p in range(5, int(1e5)):
-    #     if test_miller_rabin(p):
-    #         cpt += 1
-    # return abs(cpt - len(premiers))
+#     drawConfusionMatrix(confusion)
 
 if __name__ == "__main__":
     # experience_euclide(4086, 32, 10)

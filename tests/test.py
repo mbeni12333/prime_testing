@@ -12,14 +12,19 @@ class TestPGCD(unittest.TestCase):
     def test_normal(self):
         self.assertEqual(my_gcd(987, 345), 3)
         self.assertEqual(my_gcd(345, 987), 3)
+
     def test_etendu(self):
         gcd, u, v = my_gcd_etendu(987, 345)
         self.assertEqual(u*987 + v*345, gcd)
+        gcd, u, v = my_gcd_etendu(345, 987)
+        self.assertEqual(u*987 + v*345, gcd)
 
 class TestInverse(unittest.TestCase):
+
     def test_normal(self):
         inv = my_inverse(14, 11)
         self.assertEqual(inv*14%11, 1)
+
     def test_bezout(self):
         inv = my_inverse_bezout(14, 11)
         self.assertEqual(inv*14%11, 1)
@@ -38,22 +43,16 @@ class TestExpMod(unittest.TestCase):
 
 class TestFermat(unittest.TestCase):
 
-
     def testGood(self):
-
         prime = 377791
         a = 253432
-
         goodResult = first_test(prime)
         ourResult = test_fermat(prime, a)
         self.assertEqual(goodResult, ourResult)
 
-
     def testFail(self):
-
         prime = 561
         a = 5
-
         goodResult = first_test(prime)
         ourResult = test_fermat(prime, a)
         self.assertEqual(goodResult, not ourResult)
