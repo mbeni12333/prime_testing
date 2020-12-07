@@ -163,21 +163,18 @@ def gen_carmichael32(N=1e5, n_facteur_max=5):
         if isCarmichael_facteurs(n, acc):
             return n
 
-def test_fermat(n, a):
+def test_fermat(n, a=None):
     """
-    n un entier impair, a un entier entre 2 et n - 1.
+    n un entier impair
 
     Retourne vrai si premier possible
     faux si composé
 
     """
-    a = random.randrange(2, n)
-    b = my_expo_mod(a, n-1, n)
+    if a == None:
+        a = random.randrange(2, n)
 
-    if b != 1:
-        return False
-
-    return True
+    return my_expo_mod(a, n-1, n) == 1
 
 
 def test_miller_rabin(n, T=10):

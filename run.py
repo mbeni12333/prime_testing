@@ -132,7 +132,7 @@ import os
 ###Menu
 while True:
 
-    os.system('clear')
+    os.system('cls' if os.name=='nt' else 'clear')
 
     print("-1: Stop")
 
@@ -157,6 +157,6 @@ while True:
             print(f"{selected} is an invalid choice.")
             continue
         
-        os.system('clear')
+        os.system('cls' if os.name=='nt' else 'clear')
         menu[selected][1]()
         input("press any key to continue ....")

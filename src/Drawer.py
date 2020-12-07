@@ -78,10 +78,10 @@ def drawConfusionMatrix(confusion, title="confusion_matrix"):
     """
 
     ax= plt.subplot()
-    sns.heatmap(confusion, annot=True, ax = ax,fmt=".4f", cmap="viridis");
+    sns.heatmap(confusion, annot=True, ax = ax,fmt=".4f", cmap="viridis", annot_kws={"fontsize":15}, cbar=False);
     ax.set_xlabel('True labels');
     ax.set_ylabel('Predicted labels'); 
-    ax.set_title('Confusion Matrix'); 
+    ax.set_title(title); 
     ax.xaxis.set_ticklabels(['prime', 'notprime']);
     ax.yaxis.set_ticklabels(['prime', 'notprime']);
     plt.savefig(os.path.join(fp, title+".png").replace("\\","/"))
