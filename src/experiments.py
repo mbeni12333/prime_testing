@@ -105,7 +105,6 @@ def experience_first_test(n, step=1, n_exp=10):
 
         mean_exec = 0
 
-        #print("value: ", value)
 
         for exp in range(n_exp):
 
@@ -142,15 +141,47 @@ def experience_carmichael(N=1e5):
             cpt += 1
     return cpt
     
-def experience_carmichael_t(tmax=5*60*60):
+def experience_carmichael_t(tmax=5*60):
     start_time = time.time()
-    i = 0
+    i = 1
 
-    while(time.time() - start_time < tmax):
-        i += 1
+    while time.time() - start_time < tmax:
+        # +2 pour éviter de tester les paire
+        i += 2
         if isCarmichael(i):
             print(i)
 
+
+def experience_carmichael3_t(tmax=5*60):
+    start_time = time.time()
+
+    best = 0
+
+    N = int(1e4)
+
+    while time.time() - start_time < tmax:
+
+
+        print("N:", N)
+
+        for i in range(4):
+
+            if time.time() - start_time >= tmax:
+                break
+
+            carm = gen_carmichael3(N=N)
+
+            if carm > best:
+                best = carm
+
+            print(carm)
+
+        N *= 2
+
+    print("Plus grand nombre de carmicheal trouvé: ", best)
+
+
+#Inutile ?
 def experience_gen_carmichael_3(N=10000):
     """
     """
@@ -168,11 +199,11 @@ def experience_gen_carmichael_3(N=10000):
     return maxn
 
 
-def generateRandomComposite(maxSize=100000):
+def generateRandomCompositeImp(maxSize=100000):
 
     notPrime = random.randrange(4, maxSize)
 
-    while first_test(notPrime):
+    while first_test(notPrime) or (notPrime % 2) == 0:
         notPrime = random.randrange(4, maxSize)
 
     return notPrime
@@ -190,14 +221,17 @@ def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
         Ne retourne rien mais print la probabilité de succes estimé.
     """
     error_counter = 0
+
+    if mode == 0:
+        carmichael_list = gen_carmichael(maxSize)
         
     for i in range(n):
 
         if mode == 0:
-            prime = gen_carmichael(maxSize)
-            #Random a ou bien un autre nombre de carmichael ?
+            prime = random.choice(carmichael_list)
+
         elif mode == 1:
-            prime = generateRandomComposite(maxSize)
+            prime = generateRandomCompositeImp(maxSize)
             #Si celle là, que faire dans le cas de prime = 4 ?
         elif mode == 2:
             #n impair et supérieur a 2
@@ -213,9 +247,85 @@ def estimate_proba_test_fermat(n, maxSize=100000, mode=0):
             #print(f"Error on {prime} with a = {a}")
             error_counter += 1
 
+
     error_pourcent = error_counter/n
 
     print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
+
+
+def estimate_proba_test_rabin(n, maxSize=100000):
+    """
+    Entrées:
+        n : Nombre de test
+        maxSize : Taille maximum des valeurs testés
+        mode:
+            0 = Nombre généré par gen_carmichael
+            1 = Nombre composé
+            2 = Aléatoire
+
+        Ne retourne rien mais print la probabilité de succes estimé.
+    """
+
+    modeLabel = ["Carmichael", "Composé", "Aléatoire"]
+    
+    plt.figure("miller_rabin")
+    plt.xlabel("T")
+    plt.ylabel("probabilité d'erreur (entre 0 et 1)")
+    plt.title("probabilité d'erreur en fonction de T du test de Miller Rabin")
+
+    #if mode == 0:
+    carmichael_list = gen_carmichael(maxSize)
+
+
+    
+
+    for mode in range(3):
+        
+        x = []
+        y = []
+        
+        for T in range(1, 10):
+
+            error_counter = 0
+
+            for i in range(n):
+
+                if mode == 0:
+                    prime = random.choice(carmichael_list)
+
+                elif mode == 1:
+                    prime = generateRandomCompositeImp(maxSize)
+                    #Si celle là, que faire dans le cas de prime = 4 ?
+                elif mode == 2:
+                    #n impair et supérieur a 2
+                    prime = random.randrange(3, maxSize, 2)
+
+
+                mayPrime = test_miller_rabin(prime, T)
+
+                isPrime  = first_test(prime)
+
+                if mayPrime != isPrime:
+                    #print(f"Error on {prime} with a = {a}")
+                    error_counter += 1
+
+
+            error_pourcent = error_counter/n
+
+            x.append(T)
+            y.append(error_pourcent)
+
+
+        plt.plot(x, y, label=modeLabel[mode])
+
+
+    plt.legend(loc='best')
+    plt.show()
+
+    #print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
+
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 def experience_miller_rabin(N=1e5):
 
@@ -248,9 +358,6 @@ def experience_miller_rabin(N=1e5):
     #     if test_miller_rabin(p):
     #         cpt += 1
     # return abs(cpt - len(premiers))
-
-#import matplotlib.pyplot as plt
-#import seaborn as sns
 
 if __name__ == "__main__":
     # experience_euclide(4086, 32, 10)
