@@ -333,24 +333,28 @@ def estimate_proba_test_rabin(n, maxSize=100000):
 
 #     drawConfusionMatrix(confusion)
 
-if __name__ == "__main__":
-    # experience_euclide(4086, 32, 10)
-    # c = experience_comptage_premier_naiif()
-    # c = experience_carmichael(10000)
-    # print("cpt = ", c)
-    # experience_carmichael()
-    #maxn = experience_gen_carmichael_3(1000)
-    #print(maxn)
-    # print(test_miller_rabin(7))
-    # experience_miller_rabin()
-    # print(gen_carmichael32(1.2e4))
-    # print(gen_rsa(64))
+def experiment_gen_rsa(nb_bits_max=128, step_size=2, n_exp=10):
+    drawer = Drawer()
+    
+    # pour chaque taille de nombre
+    for i in range(3, nb_bits_max, step_size):
+        # faire la moyenne des n_exp lancé
+        print(i)
+        mean_exec = 0
+        for exp in range(n_exp):
+            mean_exec += timeit(gen_rsa, i)
+
+        drawer.add(name="my_gcd", time=mean_exec/n_exp, size=i)
+    drawer.draw()
+
+
+def experiment_RSA():
+
     public_key,  private_key = RSA(1024)
-    # print(f"public_key:{tuple(map(hex, public_key))}")
-    # print(f"private_key:{tuple(map(hex, private_key))}")
+
     m = "Bonjour"
     t = time.time()
     s = encode(m, public_key)
     d = decode(s, private_key)
     print(f"message envoyé: {m}, message décodé: {d}, temps encodage_decodage : {time.time() - t}")
-    # print(my_expo_mod(26, -23, 77))
+

@@ -214,10 +214,12 @@ def test_miller_rabin(n, T=10):
 import random
 def gen_rsa(t):
     """
-    int: longeur en bits
+    int: longeur en bits (doit être supérieur a 2)
     return: (e, n), (d, n)
     """
-    inf = 1<<(t-2)
+
+
+    inf = 1<<(t-1)
 
     while True:
         p = inf + random.getrandbits(t-1)
