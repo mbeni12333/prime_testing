@@ -218,7 +218,6 @@ def gen_rsa(t):
     return: (e, n), (d, n)
     """
 
-
     inf = 1<<(t-1)
 
     while True:
