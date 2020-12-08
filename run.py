@@ -87,7 +87,7 @@ def calcul_miller_rabin():
 	return 0
 
 def q4b():
-	estimate_proba_test_rabin(100, maxSize=1000000)
+	estimate_proba_test_rabin(50, maxSize=1000000)
 
 def q4c():
 	# experience_miller_rabin()
@@ -96,7 +96,7 @@ def q4c():
 		estimate_proba_test_primality(50000, test_miller_rabin, mode=i)
 
 def q4d():
-	experiment_gen_rsa(nb_bits_max=140, step_size=12, n_exp=100)
+	experiment_gen_rsa(nb_bits_max=1024, step_size=64, n_exp=10)
 	return 0
 
 def bonus():

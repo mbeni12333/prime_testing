@@ -109,13 +109,22 @@ def isCarmichael(n):
     """
     """
     # n'est pas composé
-    if(first_test(n)):
-        return False
-    
+    #if(first_test(n)):
+    #    return False
+    n_divisors = 0
     for i in range(2, n):
         # (i premier avec n => i**(n-1) = 1[n])
-        if (my_gcd(i, n) == 1) and (my_expo_mod(i, n-1, n) != 1):
+        gcd = my_gcd(i, n)
+        if (gcd == 1) and (my_expo_mod(i, n-1, n) != 1):
             return False
+
+        if n%i == 0:
+            n_divisors += 1
+
+    if n_divisors == 0:
+        # n est premier 
+        return False
+    
     return True
 
 
@@ -141,12 +150,33 @@ def gen_carmichael3(N=1e5, n_facteur_max=5):
 
     while True:
         acc = [premiers[np.random.randint(0, len(premiers)-1)] for i in range(nb_facteur)]
-        n = np.prod(acc, dtype=np.int64)
-
+        # n = np.prod(acc, dtype=np.int64)
+        n = 1
+        for a in acc:
+            n*=a
         if isCarmichael_facteurs(n, acc):
             return n
 
-
+def gen_carmichael_3_list(N=1e5, n_elements=10):
+    """
+    int->int
+    """
+    premiers = [i for i in range(3, int(N), 2) if first_test(i)]
+    nb_facteur = 3
+    T = []
+    cpt = 0
+    while cpt < n_elements:
+        acc = [premiers[np.random.randint(0, len(premiers)-1)] for i in range(nb_facteur)]
+        # n = np.prod(acc, dtype=np.int64)
+        n = 1
+        for a in acc:
+            n*=a
+        if isCarmichael_facteurs(n, acc):
+            T.append(n)
+            cpt += 1
+            print(cpt)
+    
+    return T
 def gen_carmichael32(N=1e5, n_facteur_max=5):
     """
     int->int

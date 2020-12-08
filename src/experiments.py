@@ -277,7 +277,7 @@ def estimate_proba_test_rabin(n, maxSize=100000):
     plt.title("probabilité d'erreur en fonction de T du test de Miller Rabin")
 
     # if mode == 0:
-    carmichael_list = gen_carmichael(maxSize)
+    carmichael_list = gen_carmichael_3_list(3e3, 50)
 
     for mode in range(3):
         
@@ -285,13 +285,13 @@ def estimate_proba_test_rabin(n, maxSize=100000):
         y = []
         
         for T in range(1, 10):
-
+            print("T = ", T)
             error_counter = 0
 
             for i in range(n):
 
                 if mode == 0:
-                    prime = random.choice(carmichael_list)
+                    prime = random.choice(carmichael_list)# int(gen_carmichael3(1e5)) #random.choice(carmichael_list) #int(gen_carmichael3(2e2)) # 
 
                 elif mode == 1:
                     prime = generateRandomCompositeImp(maxSize)
@@ -299,7 +299,6 @@ def estimate_proba_test_rabin(n, maxSize=100000):
                 elif mode == 2:
                     #n impair et supérieur a 2
                     prime = random.randrange(3, maxSize, 2)
-
 
                 mayPrime = test_miller_rabin(prime, T)
 
@@ -316,7 +315,10 @@ def estimate_proba_test_rabin(n, maxSize=100000):
 
         plt.plot(x, y, label=modeLabel[mode])
 
+    import os
+    fp = os.path.abspath("rapport/graphs")
     plt.legend(loc='best')
+    plt.savefig(os.path.join(fp, "miller_rabin_test_T.png"))
     plt.show()
 
     #print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
@@ -344,7 +346,7 @@ def experiment_gen_rsa(nb_bits_max=128, step_size=2, n_exp=10):
         for exp in range(n_exp):
             mean_exec += timeit(gen_rsa, i)
 
-        drawer.add(name="my_gcd", time=mean_exec/n_exp, size=i)
+        drawer.add(name="gen_rsa", time=mean_exec/n_exp, size=i)
     drawer.draw()
 
 
