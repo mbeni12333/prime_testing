@@ -341,7 +341,7 @@ def experiment_gen_rsa(nb_bits_max=128, step_size=2, n_exp=10):
     # pour chaque taille de nombre
     for i in range(3, nb_bits_max, step_size):
         # faire la moyenne des n_exp lancé
-        print(i)
+
         mean_exec = 0
         for exp in range(n_exp):
             mean_exec += timeit(gen_rsa, i)
