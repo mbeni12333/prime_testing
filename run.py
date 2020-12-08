@@ -96,7 +96,7 @@ def q4c():
 		estimate_proba_test_primality(50000, test_miller_rabin, mode=i)
 
 def q4d():
-	experiment_gen_rsa(nb_bits_max=140, step_size=12, n_exp=100)
+	experiment_gen_rsa(nb_bits_max=128, step_size=12, n_exp=100)
 	return 0
 
 def bonus():
