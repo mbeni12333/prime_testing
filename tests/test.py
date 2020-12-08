@@ -73,6 +73,17 @@ class TestCarmicael(unittest.TestCase):
         self.assertFalse(isCarmichael(231))
         self.assertTrue(216821881)
 
+class TestRSA(unittest.TestCase):
+    def testGenRsa(self):
+        p, q, n = gen_rsa(3)
+        self.assertTrue(test_miller_rabin(p))
+        self.assertTrue(test_miller_rabin(q))
+        p, q, n = gen_rsa(4)
+        self.assertTrue(test_miller_rabin(p))
+        self.assertTrue(test_miller_rabin(q))
+        p, q, n = gen_rsa(10)
+        self.assertTrue(test_miller_rabin(p))
+        self.assertTrue(test_miller_rabin(q))
 
 if __name__ == '__main__':
     unittest.main()
