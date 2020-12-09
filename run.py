@@ -1,4 +1,6 @@
 
+import os
+
 from src.experiments import *
 from src.fonctions import *
 
@@ -129,9 +131,6 @@ menu = [("Lancer tout les unittest", lancer_tests),
 		("Question 4.d (gen_rsa)", q4d),
 		("Question BONUS ;)", bonus),]
 
-
-
-import os
 
 ###Menu
 while True:
