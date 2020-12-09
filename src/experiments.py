@@ -74,25 +74,30 @@ def experience_gcd_inverse(n, step=1, n_exp=10, inverse=True):
     drawer.draw()
 
 
-def experience_exp_mod(n, step=1, n_exp=10):
+def experience_exp_mod(n, step=1, n_exp=10, naiive=False):
 
-    drawer = Drawer(title="Temps en fonction de N")
+    drawer = Drawer(title="Temps en fonction de nombre de bits de la puissance")
     
+    puissance_classique = lambda x, y, z: z % (x**y) 
     mean_exec = 0
     for i in range(3, n, step):
 
-        
-        mean_exec = 0
-
+        mean_exec1 = 0
+        mean_exec2 = 0
+        #print(i)
         for exp in range(n_exp):
-            a = random.getrandbits(i+1)
-            b = random.getrandbits(i+1)
-            N = random.getrandbits(i) + 1
+            a = random.getrandbits(1024)
+            b = random.getrandbits(i)
+            N = random.getrandbits(1024)
 
-            mean_exec += timeit(my_expo_mod, a, b, N)
+            mean_exec1 += timeit(my_expo_mod, a, b, N)
+            if naiive:
+                mean_exec2 += timeit(puissance_classique, a, b, N)
 
+        drawer.add(name="my_expo_mod", time=mean_exec1/n_exp, size=i)
 
-        drawer.add(name="my_expo_mod", time=mean_exec, size=i)
+        if naiive:
+            drawer.add(name="puissance_classique", time=mean_exec2/n_exp, size=i)
 
     drawer.draw()
 
@@ -105,7 +110,7 @@ def experience_first_test(n, step=1, n_exp=10):
 
         mean_exec = 0
 
-
+        print(i)
         for exp in range(n_exp):
 
             n = random.getrandbits(i)

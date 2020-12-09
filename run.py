@@ -37,7 +37,7 @@ def calcul_expo_mod():
 	
 ##Question 1.d
 def q1d():
-	experience_exp_mod(10000, 1000, n_exp=3)
+	experience_exp_mod(10000, 500, n_exp=10)
 
 
 def calcul_first_test():
@@ -48,7 +48,7 @@ def calcul_first_test():
 	print(f"{N} {p[prime]}")
 ##Question 2.a / b
 def q2ab():
-	experience_first_test(60, 6, n_exp=100)
+	experience_first_test(60, 8, n_exp=5)
 
 
 ##Question 2.c

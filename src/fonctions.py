@@ -77,15 +77,15 @@ def my_inverse_bezout(a, N):
 
     # si on trouve pas d'inverse
     print(f"{a} n'a pas d'inverse modulo {N}")
-
+from math import sqrt
 def first_test(N):
     """
     int -> boolean
     test naiif de primalité
     complexité en O(sqrt(n))
     """
-
-    for i in range(2, int(np.sqrt(N))+1):
+    for i in range(2, int(sqrt(N))+1):
+    #for i in range(2, int(np.sqrt(N))+1):
         if(N%i == 0):
             return False
     return True
@@ -108,9 +108,6 @@ def isCarmichael_facteurs(n, facteurs):
 def isCarmichael(n):
     """
     """
-    # n'est pas composé
-    #if(first_test(n)):
-    #    return False
     n_divisors = 0
     for i in range(2, n):
         # (i premier avec n => i**(n-1) = 1[n])
