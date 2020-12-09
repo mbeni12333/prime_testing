@@ -19,14 +19,6 @@ class Drawer(object):
             self.times[name][0].append(size)
             self.times[name][1].append(time)
 
-        #if name in self.nameToTimeA:
-        #    self.nameToTimeA[name].append(time)
-        #else:
-        #    self.nameToTimeA[name] = [time]
-
-        # on prefere tout le temps avoir [ [] ], que d'avoir tantot [] et tantot [[]]
-        # if len(self.sizes) == 0 or self.sizes[-1] != size:
-        #    self.sizes.append(size)
 
     def draw(self, mode="linear"):
         plt.figure("Temps")
@@ -44,28 +36,6 @@ class Drawer(object):
 
         for key, value in self.times.items():
             plt.plot(value[0], value[1], label=key)
-
-        #plt.plot(value[0], np.sqrt(value[0])/100000, label="sqrt(N)")
-
-        # if mode == "normal":
-        #    plt.title("Temps en fonction de n")
-
-        # elif mode == "log":
-        #    plt.title("log(Temps) en fonction du nombre d'objets")
-
-        # elif mode == "2^n":
-        #    plt.title("Temps/2^n en fonction du nombre d'objets")
-
-        # for name, timeArray in self.nameToTimeA.items():
-
-        #    if mode == "normal":
-        #        plt.plot(self.sizes, timeArray, label=name)
-
-        #    elif mode == "log":
-        #        plt.plot(self.sizes, np.log(timeArray), label=name)
-
-        #    elif mode == "2^n":
-        #        plt.plot(self.sizes, timeArray/np.power(2, self.sizes), label=name)
 
 
         plt.legend(loc='best')

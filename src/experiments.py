@@ -310,7 +310,6 @@ def estimate_proba_test_rabin(n, maxSize=100000):
                 isPrime  = first_test(prime)
 
                 if mayPrime != isPrime:
-                    #print(f"Error on {prime} with a = {a}")
                     error_counter += 1
 
             error_pourcent = error_counter/n
@@ -326,7 +325,6 @@ def estimate_proba_test_rabin(n, maxSize=100000):
     plt.savefig(os.path.join(fp, "miller_rabin_test_T.png"))
     plt.show()
 
-    #print(f"{error_counter} erreurs rencontrées sur {n} valeurs, soit une probabilité d'erreur de {round(error_pourcent*100, 3)}% ({round(error_pourcent, 6)})")
 
 # def experience_miller_rabin(N=1e5):
 

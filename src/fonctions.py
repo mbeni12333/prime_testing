@@ -164,7 +164,7 @@ def gen_carmichael_3_list(N=1e5, n_elements=10):
     cpt = 0
     while cpt < n_elements:
         acc = [premiers[np.random.randint(0, len(premiers)-1)] for i in range(nb_facteur)]
-        # n = np.prod(acc, dtype=np.int64)
+
         n = 1
         for a in acc:
             n*=a
